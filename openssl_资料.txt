@@ -1,0 +1,14 @@
+关于openssl
+
+
+[转] Openssl之BIO系列(1)  
+http://blog.163.com/hao_dsliu/blog/static/131578908201042841137356
+
+[OPENSSL笔记] I/O抽象
+http://www.douban.com/note/206082794/
+
+使用 OpenSSL API 进行安全编程
+http://www.ibm.com/developerworks/cn/linux/l-openssl.html
+
+关于openssl几个API的一点小收获
+http://blog.chinaunix.net/uid-23069658-id-4282969.html

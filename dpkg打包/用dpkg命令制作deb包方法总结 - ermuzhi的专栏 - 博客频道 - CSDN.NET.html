@@ -1,0 +1,1030 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+     
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>   
+    
+     
+    <script type="text/javascript" src="http://c.csdnimg.cn/pubfooter/js/tracking.js" charset="utf-8"></script>  
+
+    <script type="text/javascript">
+        var protocol = window.location.protocol;
+        document.write('<script type="text/javascript" src="' + protocol + '//csdnimg.cn/pubfooter/js/repoAddr2.js?v=' + Math.random() + '"></' + 'script>');
+    </script>
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <title>用dpkg命令制作deb包方法总结 - ermuzhi的专栏
+        - 博客频道 - CSDN.NET</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Deep Learning（深度学习）学习笔记整理系列zouxy09@qq.comhttp://blog.csdn.net/zouxy09作者：Zouxyversion 1.0 2013-04-08声明：1）该Deep Learning的学习系列是整理自网上很大牛和机器学习专家所无私奉献的资料的。具体引用的资料请看参考文献。具体的版本声明也参考原文献。2）本文仅供学术交流，非商用。所以每一部分具体" />
+    <script src="http://static.blog.csdn.net/scripts/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://static.blog.csdn.net/scripts/ad.js?v=1.1"></script>
+        <!--new top-->
+               <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/css/index.css">        <!--new top-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/light_blue/css/style.css?v=1.1" />
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/ermuzhi/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/nobg.css" />
+ 
+
+
+</head>
+<body>
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/ermuzhi">ermuzhi的专栏</a></h2>
+            <h3></h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+            
+                <li id="btnContents"><a href="http://blog.csdn.net/ermuzhi?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/ermuzhi?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/ermuzhi/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "ermuzhi";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/ermuzhi";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+<a href="http://huiyi.csdn.net/activity/product/goods_list?project_id=2741">
+<font color=red>2016软考项目经理实战班
+</font></a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/xingjiarong/article/details/50651235">
+<font color=blue>python编程常用模板总结
+</font></a>
+&nbsp;&nbsp;&nbsp;
+<a href="http://blog.csdn.net/dba_huangzj/article/details/50469185">
+<font color=red>【博客专家】有奖试读—Windows PowerShell实战指南
+</font></a>
+
+</div>                        </div>
+                        
+
+<!--AdForward Begin:-->
+<script type="text/javascript" ads-src="http://csdnim.qtmojo.com/main/s?user=csdn|blog|fumeiti&db=csdnim&border=0&local=yes&js=ie" src="http://creatim.qtmojo.cn/td/AllyesDeliver.min.js" charset="gbk"></script>
+<!--AdForward End-->
+
+  
+<link href="http://static.blog.csdn.net/css/comment1.css" type="text/css" rel="stylesheet" />
+<link href="http://static.blog.csdn.net/css/style1.css" type="text/css" rel="stylesheet" />
+<script language='JavaScript' type='text/javascript' src='http://download.csdn.net/js/jquery.cookie.js'></script>
+<script type="text/javascript" src="http://c.csdnimg.cn/rabbit/search-service/main.js"></script>
+<link rel="stylesheet" href="http://static.blog.csdn.net/public/res-min/markdown_views.css?v=1.0" />
+<link rel="stylesheet" href="http://static.blog.csdn.net/css/category.css?v=1.0" />
+<script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+           
+            var isBole = false;
+            
+          
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Repost"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="/ermuzhi/article/details/7817801">
+        用dpkg命令制作deb包方法总结            
+        </a></span>
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/deb' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">deb</a><a href='http://www.csdn.net/tag/debian' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">debian</a><a href='http://www.csdn.net/tag/%e8%84%9a%e6%9c%ac' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">脚本</a><a href='http://www.csdn.net/tag/processing' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">processing</a><a href='http://www.csdn.net/tag/subprocess' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">subprocess</a><a href='http://www.csdn.net/tag/shell' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">shell</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2012-08-01 12:02</span>
+            <span class="link_view" title="阅读次数">5994人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(0)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('用dpkg命令制作deb包方法总结','7817801');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(7817801,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>
+    <script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>  
+
+  
+
+  
+  
+     
+
+<div id="article_content" class="article_content">
+
+<span style="color:rgb(69,69,69); font-family:Tahoma,Arial,Helvetica,STHeiti"></span>
+<div class="content-head clearfix" style="zoom:1">
+<h2 class="title content-title" style="margin-top:0px; margin-right:0px; margin-bottom:10px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px; font-size:20px; color:rgb(58,58,58); font-weight:normal; float:left">
+用dpkg命令制作deb包方法总结</h2>
+</div>
+<div id="content" class="content text-content clearfix" style="zoom:1; width:758px; overflow-x:hidden; overflow-y:hidden; font-size:14px; line-height:25px; margin-top:7px; margin-right:0px; margin-bottom:10px; margin-left:0px">
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+如何制作Deb包和相应的软件仓库，其实这个很简单。这里推荐使用dpkg来进行deb包的创建、编辑和制作。</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+首先了解一下deb包的文件结构:</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+deb 软件包里面的结构：它具有DEBIAN和软件具体安装目录（如etc, usr, opt, tmp等）。在DEBIAN目录中起码具有control文件，其次还可能具有postinst(postinstallation)、postrm(postremove)、preinst(preinstallation)、prerm(preremove)、copyright (版权）、changlog （修订记录）和conffiles等。</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+control: 这个文件主要描述软件包的名称（Package），版本（Version）以及描述（Description）等，是deb包必须具备的描述性文件，以便于软件的安装管理和索引。同时为了能将软件包进行充分的管理，可能还具有以下字段:</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Section: 这个字段申明软件的类别，常见的有`utils’, `net’, `mail’, `text’, `x11′ 等；</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Priority: 这个字段申明软件对于系统的重要程度，如`required’, `standard’, `optional’, `extra’ 等；</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Essential: 这个字段申明是否是系统最基本的软件包（选项为yes/no），如果是的话，这就表明该软件是维持系统稳定和正常运行的软件包，不允许任何形式的卸载（除非进行强制性的卸载）</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Architecture:申明软件包结构，如基于`i386′, ‘amd64’,`m68k’, `sparc’, `alpha’, `powerpc’ 等；</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Source: 软件包的源代码名称；</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Depends: 软件所依赖的其他软件包和库文件。如果是依赖多个软件包和库文件，彼此之间采用逗号隔开；</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Pre-Depends: 软件安装前必须安装、配置依赖性的软件包和库文件，它常常用于必须的预运行脚本需求；</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Recommends: 这个字段表明推荐的安装的其他软件包和库文件；</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Suggests: 建议安装的其他软件包和库文件。</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+<br>
+对于control，这里有一个完整的例子:</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+Package: bioinfoserv-arb<br>
+Version: 2007_14_08<br>
+Section: BioInfoServ<br>
+Priority: optional<br>
+Depends: bioinfoserv-base-directories (&gt;= 1.0-1), xviewg (&gt;= 3.2p1.4), xfig (&gt;= 1:3), libstdc&#43;&#43;2.10-glibc2.2<br>
+Suggests: fig2ps<br>
+Architecture: i386<br>
+Installed-Size: 26104<br>
+Maintainer: Mingwei Liu &lt;&gt;<br>
+Provides: bioinfoserv-arb<br>
+Description: The ARB software is a graphically oriented package comprising various tools for sequence database handling and data analysis.<br>
+If you want to print your graphs you probably need to install the suggested fig2ps package.preinst: 这个文件是软件安装前所要进行的工作，工作执行会依据其中脚本进行；<br>
+postinst这个文件包含了软件在进行正常目录文件拷贝到系统后，所需要执行的配置工作。<br>
+prerm :软件卸载前需要执行的脚本<br>
+postrm: 软件卸载后需要执行的脚本现在来看看如何修订一个已有的deb包软件</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+=================================================================<br>
+debian制作DEB包(在root权限下），打包位置随意。<br>
+#建立要打包软件文件夹，如<br>
+mkdir Cydia<br>
+cd&nbsp;&nbsp; Cydia<br>
+<br>
+#依据程序的安装路径建立文件夹,并将相应程序添加到文件夹。如<br>
+mkdir Applications<br>
+mkdir var/mobile/Documents (游戏类需要这个目录，其他也有可能需要）<br>
+mkdir *** (要依据程序要求来添加）<br>
+<br>
+#建立DEBIAN文件夹<br>
+mkdir DEBIAN<br>
+<br>
+<br>
+#在DEBIAN目录下创建一个control文件,并加入相关内容。<br>
+touch DEBIAN/control（也可以直接使用vi DEBIAN/control编辑保存）<br>
+#编辑control<br>
+vi DEBIAN/control<br>
+<br>
+#相关内容（注意结尾必须空一行）：<br>
+Package: soft （程序名称）<br>
+Version: 1.0.1 （版本）<br>
+Section: utils （程序类别）<br>
+Architecture: iphoneos-arm&nbsp;&nbsp; （程序&#26684;式）<br>
+Installed-Size: 512&nbsp;&nbsp; （大小）<br>
+Maintainer: your &lt;your_email@gmail.com&gt;&nbsp;&nbsp; （打包人和联系方式）<br>
+Description: soft package （程序说明)<br>
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; （此处必须空一行再结束）<br>
+注：此文件也可以先在电脑上编辑（使用文本编辑就可以，完成后去掉.txt),再传到打包目录里。<br>
+<br>
+#在DEBIAN里还可以根据需要设置脚本文件<br>
+preinst<br>
+在Deb包文件解包之前，将会运行该脚本。许多“preinst”脚本的任务是停止作用于待升级软件包的服务，直到软件包安装或升级完成。<br>
+<br>
+postinst<br>
+该脚本的主要任务是完成安装包时的配置工作。许多“postinst”脚本负责执行有关命令为新安装或升级的软件重启服务。<br>
+<br>
+prerm<br>
+该脚本负责停止与软件包相关联的daemon服务。它在删除软件包关联文件之前执行。<br>
+<br>
+postrm<br>
+该脚本负责修改软件包链接或文件关联，或删除由它创建的文件。<br>
+<br>
+#postinst 如：<br>
+#!/bin/sh<br>
+if [ &quot;$1&quot; = &quot;configure&quot; ]; then<br>
+/Applications/MobileLog.app/MobileLog -install<br>
+/bin/launchctl load -wF /System/Library/LaunchDaemons/com.iXtension.MobileLogDaemon.plist&nbsp;<br>
+fi<br>
+<br>
+#prerm 如：<br>
+#!/bin/sh<br>
+if [[ $1 == remove ]]; then<br>
+/Applications/MobileLog.app/MobileLog -uninstall<br>
+/bin/launchctl unload -wF /System/Library/LaunchDaemons/com.iXtension.MobileLogDaemon.plist&nbsp;<br>
+fi<br>
+<br>
+#如果DEBIAN目录中含有postinst 、prerm等执行文件<br>
+chmod -R 755 DEBIAN<br>
+<br>
+#退出打包软件文件夹，生成DEB<br>
+dpkg-deb --build Cydia<br>
+=====================================================================<br>
+有时候安装自己打包的deb包时报如下错误：<br>
+Selecting previously deselected package initrd-deb.<br>
+(Reading database ... 71153 files and directories currently installed.)<br>
+Unpacking initrd-deb (from initrd-vstools_1.0_amd64.deb) ...<br>
+dpkg: error processing initrd-vstools_1.0_amd64.deb (--install):<br>
+trying to overwrite `/boot/initrd-vstools.img', which is also in package initrd-deb-2<br>
+dpkg-deb: subprocess paste killed by signal (Broken pipe)<br>
+Errors were encountered while processing:<br>
+initrd-vstools_1.0_amd64.deb<br>
+主要意思是说，已经有一个deb已经安装了相同的文件，所以默认退出安装，只要把原来安装的文件给卸载掉，再次进行安装就可以了。<br>
+<br>
+<strong>下面为实践内容：</strong><br>
+<br>
+所有的目录以及文件：</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+mydeb</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+|----DEBIAN</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |-------control<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |-------postinst</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |-------postrm</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+|----boot</p>
+<p style="margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |----- initrd-vstools.img<br>
+<br>
+在任意目录下创建如上所示的目录以及文件<br>
+# mkdir&nbsp;&nbsp; -p /root/mydeb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 在该目录下存放生成deb包的文件以及目录<br>
+# mkdir -p /root/mydeb/DEBIAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #目录名必须大写<br>
+# mkdir -p /root/mydeb/boot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 将文件安装到/boot目录下<br>
+# touch /root/mydeb/DEBIAN/control&nbsp;&nbsp;&nbsp; # 必须要有该文件<br>
+# touch /root/mydeb/DEBIAN/postinst # 软件安装完后，执行该Shell脚本<br>
+# touch /root/mydeb/DEBIAN/postrm&nbsp;&nbsp;&nbsp; # 软件卸载后，执行该Shell脚本<br>
+# touch /root/mydeb/boot/initrd-vstools.img&nbsp;&nbsp;&nbsp; # 所谓的“软件”程序，这里就只是一个空文件<br>
+<br>
+<br>
+control文件内容：<br>
+Package: my-deb&nbsp;&nbsp; （软件名称，中间不能有空&#26684;）<br>
+Version: 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (软件版本)<br>
+Section: utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; （软件类别）<br>
+Priority: optional&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; （软件对于系统的重要程度）<br>
+Architecture: amd64&nbsp;&nbsp; （软件所支持的平台架构）<br>
+Maintainer: xxxxxx &lt;&gt; （打包人和联系方式）<br>
+Description: my first deb （对软件所的描述）<br>
+<br>
+postinst文件内容（ 软件安装完后，执行该Shell脚本，一般用来配置软件执行环境，必须以“#!/bin/sh”为首行，然后给该脚本赋予可执行权限：chmod &#43;x postinst）：<br>
+#!/bin/sh<br>
+echo &quot;my deb&quot; &gt; /root/mydeb.log<br>
+<br>
+postrm文件内容（ 软件卸载后，执行该Shell脚本，一般作为清理收尾工作，必须以“#!/bin/sh”为首行，然后给该脚本赋予可执行权限：chmod &#43;x postrm）：<br>
+#!/bin/sh<br>
+rm -rf /root/mydeb.log<br>
+<br>
+给mydeb目录打包：<br>
+# dpkg -b&nbsp;&nbsp; mydeb&nbsp;&nbsp; mydeb-1.deb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 第一个参数为将要打包的目录名，<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 第二个参数为生成包的名称。<br>
+<br>
+安装deb包：<br>
+# dpkg -i&nbsp;&nbsp; mydeb-1.deb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 将initrd-vstools.img复制到/boot目录下后，执行postinst，<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # postinst脚本在/root目录下生成一个含有&quot;my deb&quot;字符的mydeb.log文件<br>
+<br>
+卸载deb包：<br>
+# dpkg -r&nbsp;&nbsp; my-deb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 这里要卸载的包名为control文件Package字段所定义的 my-deb 。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 将/boot目录下initrd-vstools.img删除后，执行posrm，<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # postrm脚本将/root目录下的mydeb.log文件删除<br>
+<br>
+查看deb包是否安装：<br>
+# dpkg -s&nbsp;&nbsp; my-deb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 这里要卸载的包名为control文件Package字段所定义的 my-deb<br>
+<br>
+查看deb包文件内容：<br>
+# dpkg&nbsp;&nbsp; -c&nbsp;&nbsp; mydeb-1.deb<br>
+<br>
+查看当前目录某个deb包的信息：<br>
+# dpkg --info mydeb-1.deb<br>
+<br>
+解压deb包中所要安装的文件<br>
+# dpkg -x&nbsp;&nbsp; mydeb-1.deb&nbsp;&nbsp; mydeb-1&nbsp;&nbsp;&nbsp; # 第一个参数为所要解压的deb包，这里为 mydeb-1.deb<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 第二个参数为将deb包解压到指定的目录，这里为 mydeb-1<br>
+<br>
+解压deb包中DEBIAN目录下的文件（至少包含control文件）<br>
+# dpkg -e&nbsp;&nbsp; mydeb-1.deb&nbsp;&nbsp; mydeb-1/DEBIAN&nbsp;&nbsp;&nbsp; # 第一个参数为所要解压的deb包，<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 这里为 mydeb-1.deb<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 第二个参数为将deb包解压到指定的目录，<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # 这里为 mydeb-1/DEBIAN</p>
+</div>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   <link rel="stylesheet" href="http://static.blog.csdn.net/css/blog_detail.css" />
+
+    
+<!--172.16.140.13-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+ 
+
+        <div id="digg" ArticleId="7817801">
+            <dl id="btnDigg" class="digg digg_disable">
+               
+                 <dt>顶</dt>
+                <dd>0</dd>
+            </dl>
+            <dl id="btnBury" class="digg digg_disable">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>
+            </dl>
+        </div>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='/ermuzhi/article/details/7815733';">上一篇</span><a href="/ermuzhi/article/details/7815733" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">Linux系统修改环境变量PATH路径---终结篇   vi /etc/environment</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='/ermuzhi/article/details/7819125';">下一篇</span><a href="/ermuzhi/article/details/7819125" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">linux kill用法、killall、pkill、xkill</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+      
+</div>
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/ermuzhi/svc/GetSuggestContent/7817801",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+<style>
+.blog-ass-articl dd {
+color: #369;
+width: 99%; /*修改行*/
+float: left;
+overflow: hidden;
+font: normal normal 12px/23px "SimSun";
+height: 23px;
+margin: 0;
+padding: 0 0 0 10px;
+margin-right: 30px;
+background: url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;
+}
+</style>
+
+<dl class="blog-ass-articl" id="res-relatived" > 
+     <dt><span>猜你在找</span></dt>    
+
+
+   
+
+
+    <div id="adCollege" style="width: 42%;float: left;"> 
+        <script src="http://csdnimg.cn/jobreco/job_reco.js" type="text/javascript"></script> 
+        <script type="text/javascript">
+            csdn.position.showEdu({
+                sourceType: "blog",
+                searchType: "detail",
+                searchKey: "7817801",
+                username: "",
+                recordcount: "5",
+                containerId: "adCollege" //容器DIV的id。 
+            });
+        </script> 
+    </div>  
+
+    
+     <div id="res"  data-mod="popu_36"  class="tracking-ad" style="width: 42%;float: left;margin-right: 30px;"></div>
+   
+</dl>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        setTimeout(function () {
+            var searchtitletags = '用dpkg命令制作deb包方法总结' + ',' + $("#tags").html();
+            searchService({
+                index: 'blog',
+                query: searchtitletags,
+                from: 5,
+                size: 5,
+                appendTo: '#res',
+                url: 'recommend',
+                his: 2,
+                client: "blog_cf_enhance",
+                tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+            });
+        }, 500);
+    });    
+
+ </script>   
+
+    <div id="ad_cen">        
+<!--AdForward Begin:-->
+<script type="text/javascript" src="http://csdnim.qtmojo.com/main/s?user=csdn|blog|banner2&db=csdnim&border=0&local=yes&js=ie" charset="gbk"></script>
+<!--AdForward End-->    </div>  
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '7817801';
+    var commentscount = 0;
+    var islock = false
+</script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/comment.js"></script>
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+<div class="tag_list" style="display:none"></div>
+  <script  language="javascript" type='text/javascript'>     
+      $(function(){
+              setTimeout(function(){
+                  $.get("/ermuzhi/svc/GetTagContent",function(data){
+                      $(".tag_list").html(data).show();
+                  });     
+              });
+          },500);                       
+ </script> 
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });
+        },200);  
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }    
+
+</script>
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/ermuzhi" target="_blank">
+    <img src="http://avatar.csdn.net/4/6/A/1_ermuzhi.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/ermuzhi" class="user_name" target="_blank">ermuzhi</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=ermuzhi','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="1" >
+                                            </a>
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>143436次</span></li>
+    <li>积分：<span>2617</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog5.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：2617 </div>
+        </span>  </li>
+    <li>排名：<span>第8270名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>109篇</span></li>
+    <li>转载：<span>52篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>10条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/ermuzhi/article/category/1216108" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/ermuzhi/article/category/1253878" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">java</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/ermuzhi/article/category/1805461" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">python</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="/ermuzhi/article/category/1852747" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">qt</a><span>(1)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/ermuzhi/article/month/2015/12">2015年12月</a><span>(2)</span></li><li><a href="/ermuzhi/article/month/2015/11">2015年11月</a><span>(3)</span></li><li><a href="/ermuzhi/article/month/2015/10">2015年10月</a><span>(3)</span></li><li><a href="/ermuzhi/article/month/2015/09">2015年09月</a><span>(4)</span></li><li><a href="/ermuzhi/article/month/2015/08">2015年08月</a><span>(5)</span></li><li><a href="/ermuzhi/article/month/2015/07">2015年07月</a><span>(4)</span></li><li><a href="/ermuzhi/article/month/2015/06">2015年06月</a><span>(3)</span></li><li><a href="/ermuzhi/article/month/2015/03">2015年03月</a><span>(1)</span></li><li><a href="/ermuzhi/article/month/2015/02">2015年02月</a><span>(1)</span></li><li><a href="/ermuzhi/article/month/2015/01">2015年01月</a><span>(2)</span></li><li><a href="/ermuzhi/article/month/2014/12">2014年12月</a><span>(4)</span></li><li><a href="/ermuzhi/article/month/2014/11">2014年11月</a><span>(3)</span></li><li><a href="/ermuzhi/article/month/2014/10">2014年10月</a><span>(2)</span></li><li><a href="/ermuzhi/article/month/2014/09">2014年09月</a><span>(7)</span></li><li><a href="/ermuzhi/article/month/2014/08">2014年08月</a><span>(5)</span></li><li><a href="/ermuzhi/article/month/2014/07">2014年07月</a><span>(4)</span></li><li><a href="/ermuzhi/article/month/2014/06">2014年06月</a><span>(2)</span></li><li><a href="/ermuzhi/article/month/2014/05">2014年05月</a><span>(3)</span></li><li><a href="/ermuzhi/article/month/2014/04">2014年04月</a><span>(5)</span></li><li><a href="/ermuzhi/article/month/2014/03">2014年03月</a><span>(2)</span></li><li><a href="/ermuzhi/article/month/2014/02">2014年02月</a><span>(5)</span></li><li><a href="/ermuzhi/article/month/2014/01">2014年01月</a><span>(3)</span></li><li><a href="/ermuzhi/article/month/2013/12">2013年12月</a><span>(10)</span></li><li><a href="/ermuzhi/article/month/2013/10">2013年10月</a><span>(2)</span></li><li><a href="/ermuzhi/article/month/2013/09">2013年09月</a><span>(4)</span></li><li><a href="/ermuzhi/article/month/2013/08">2013年08月</a><span>(4)</span></li><li><a href="/ermuzhi/article/month/2013/07">2013年07月</a><span>(13)</span></li><li><a href="/ermuzhi/article/month/2013/05">2013年05月</a><span>(1)</span></li><li><a href="/ermuzhi/article/month/2013/04">2013年04月</a><span>(8)</span></li><li><a href="/ermuzhi/article/month/2013/03">2013年03月</a><span>(11)</span></li><li><a href="/ermuzhi/article/month/2013/02">2013年02月</a><span>(2)</span></li><li><a href="/ermuzhi/article/month/2012/11">2012年11月</a><span>(1)</span></li><li><a href="/ermuzhi/article/month/2012/10">2012年10月</a><span>(6)</span></li><li><a href="/ermuzhi/article/month/2012/09">2012年09月</a><span>(13)</span></li><li><a href="/ermuzhi/article/month/2012/08">2012年08月</a><span>(10)</span></li><li><a href="/ermuzhi/article/month/2012/07">2012年07月</a><span>(2)</span></li><li><a href="/ermuzhi/article/month/2011/04">2011年04月</a><span>(1)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/ermuzhi/article/details/8808953" title="vim 空格和换行的删除和替换">vim 空格和换行的删除和替换</a><span>(12692)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/9289523" title="Linux加载DTS设备节点的过程(以高通8974平台为例)">Linux加载DTS设备节点的过程(以高通8974平台为例)</a><span>(8927)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/9942535" title="linux日志级别(loglevel)详解">linux日志级别(loglevel)详解</a><span>(7944)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/7853051" title="#ifndef#define#endif的用法(整理)    原作者：icwk">#ifndef#define#endif的用法(整理)    原作者：icwk</a><span>(6681)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/7817801" title="用dpkg命令制作deb包方法总结">用dpkg命令制作deb包方法总结</a><span>(5994)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/9298541" title="Linux 3.10 ARM Device Tree 的初始化">Linux 3.10 ARM Device Tree 的初始化</a><span>(5738)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/7833701" title="malloc()和calloc()区别 以及memset()">malloc()和calloc()区别 以及memset()</a><span>(4311)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/9299155" title="Flattened Device Tree (FDT)">Flattened Device Tree (FDT)</a><span>(3198)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/9303493" title="编译内核模块的Makefile">编译内核模块的Makefile</a><span>(3148)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/8033362" title="Linux驱动学习的最大困惑在于书籍">Linux驱动学习的最大困惑在于书籍</a><span>(2824)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/ermuzhi/article/details/7803297" title="安装jeffy.txt">安装jeffy.txt</a><span>(2)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/41519763" title="sending &#39;system&#39; (332961 KB)... FAILED (remote: data too large)">sending &#39;system&#39; (332961 KB)... FAILED (remote: data too large)</a><span>(2)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/6323325" title="win32服务 mfc 结合 编写有图形界面的 Windows 服务程序">win32服务 mfc 结合 编写有图形界面的 Windows 服务程序</a><span>(1)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/8671599" title="内存 管理">内存 管理</a><span>(1)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/8808953" title="vim 空格和换行的删除和替换">vim 空格和换行的删除和替换</a><span>(1)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/46835423" title="vim 插件 设置">vim 插件 设置</a><span>(1)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/9289325" title="Device Tree Usage">Device Tree Usage</a><span>(1)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/8920151" title="配置uboot编译环境">配置uboot编译环境</a><span>(1)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/7825691" title="linux之cut用法">linux之cut用法</a><span>(0)</span>
+</li>
+<li>
+<a href="/ermuzhi/article/details/7820058" title="linux开机启动">linux开机启动</a><span>(0)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/baimafujinji/article/details/50660189" 
+
+target="_blank">*基于直方图的图像增强算法（HE、CLAHE、Retinex）之（二）</a></li>
+<li><a href="http://blog.csdn.net/xingjiarong/article/details/50662528" 
+
+target="_blank">* python绘制非常漂亮的图表</a></li>
+<li><a href="http://blog.csdn.net/u011225629/article/details/50492403" 
+
+target="_blank">* 数据库性能优化之SQL语句优化</a></li>
+<li><a 
+
+href="http://blog.csdn.net/harvic880925/article/details/50598322"target="_blank">*Animation动画详解(七)——ObjectAnimator基本使用</a></li>
+<li><a href="http://blog.csdn.net/luoshengyang/article/details/50527574" 
+
+target="_blank">* Chromium网页URL加载过程分析</a></li>
+<li><a href="http://blog.csdn.net/androidlushangderen/article/details/50571584"  
+
+target="_blank">* Hadoop中止下线操作后大量剩余复制块的解决方案</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/ermuzhi/article/details/41519763#comments">sending &#39;system&#39; (332961 KB)... FAILED (remote: data too large)</a>
+    <p style="margin:0px;"><a href="/kuchjm" class="user_name">kuchjm</a>:
+help
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/46835423#comments">vim 插件 设置</a>
+    <p style="margin:0px;"><a href="/yoli_c_world" class="user_name">yoli_c_world</a>:
+你能不能把这些文章归归类，找起来真麻烦。。。。。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/9289325#comments">Device Tree Usage</a>
+    <p style="margin:0px;"><a href="/guxi123" class="user_name">guxi123</a>:
+Offset 0 from chip select 0 is mapped to address r...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/8808953#comments">vim 空格和换行的删除和替换</a>
+    <p style="margin:0px;"><a href="/wyyg51" class="user_name">wyyg51</a>:
+我想问下 为什么我按照上面的操作把一行分成多行 可是在vi里面执行了 没有变化呢？
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/8808953#comments">sending &#39;system&#39; (332961 KB)... FAILED (remote: data too large)</a>
+    <p style="margin:0px;"><a href="/jha334201553" class="user_name">jha334201553</a>:
+arget_get_max_flash_size 这个是一个函数吗？链接打不开，哪个cpp里面的？
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/8671599#comments">内存 管理</a>
+    <p style="margin:0px;"><a href="/u010890114" class="user_name">u010890114</a>:
+很详细。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/8920151#comments">配置uboot编译环境</a>
+    <p style="margin:0px;"><a href="/yoli_c_world" class="user_name">yoli_c_world</a>:
+.
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/7803297#comments">安装jeffy.txt</a>
+    <p style="margin:0px;"><a href="/yoli_c_world" class="user_name">yoli_c_world</a>:
+第一行后面少个s，再有就是这个怎么转载啊？？
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/7803297#comments">安装jeffy.txt</a>
+    <p style="margin:0px;"><a href="/yoli_c_world" class="user_name">yoli_c_world</a>:
+不错
+    </p>
+    </li>
+    <li>
+   
+         <a href="/ermuzhi/article/details/6323325#comments">win32服务 mfc 结合 编写有图形界面的 Windows 服务程序</a>
+    <p style="margin:0px;"><a href="/CCWRSS" class="user_name">CCWRSS</a>:
+请问下有没处理注销报错的问题？
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+ </div>   
+            <div class="clear">
+            </div>
+        </div>
+        
+
+<script type="text/javascript" src="http://c.csdnimg.cn/rabbit/cnick/cnick.js"></script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/newblog.min.js"></script>
+
+
+<script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=1067776"></script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/JavaScript1.js"></script>
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script>
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+<script type="text/javascript" src="http://ad.csdn.net/scripts/ad-blog.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+    </div>
+      <!--new top-->
+    
+    <script id="csdn-toolbar-id" btnId="header_notice_num" wrapId="note1" count="5" subCount="5" type="text/javascript" src="http://c.csdnimg.cn/public/common/toolbar/js/toolbar.js"></script>     <!--new top-->
+   
+    <link href="http://c.csdnimg.cn/comm_ask/css/ask_float_block.css" type="text/css" rel="stylesheet" />
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/wmd.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/showdown.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/prettify.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/apps/ask_float_block.js'></script>
+   
+</body>
+</html>   
+ 

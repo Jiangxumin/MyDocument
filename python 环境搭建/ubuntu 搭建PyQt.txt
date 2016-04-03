@@ -1,0 +1,28 @@
+
+
+http://blog.bccn.net/%E9%9D%99%E5%A4%9C%E6%80%9D/10158
+
+ubuntu下安装pyqt4
+
+1. apt-get安装(快)
+
+
+	sudo apt-get install libxext6 libxext-dev libqt4-dev libqt4-gui libqt4-sql \	qt4-dev-tools qt4-doc qt4-designer qt4-qtconfig "python-qt4-*" python-qt4
+
+
+
+2. 编译安装(慢)
+
+
+	安装SIP
+	从 http://www.riverbankcomputing.co.uk/software/sip/download 下载压缩包解压
+	sudo python configure.py
+	make
+	sudo make install
+	安装依赖的库
+	sudo apt-get install libxext6 libxext-dev libqt4-dev libqt4-gui libqt4-sql qt4-dev-tools qt4-doc qt4-designer qt4-qtconfig
+	安装PyQt4
+	从 http://www.riverbankcomputing.co.uk/software/pyqt/download 下载压缩包解压
+	sudo python configure.py
+	sudo make
+	sudo make install

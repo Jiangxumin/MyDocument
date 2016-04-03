@@ -1,0 +1,13 @@
+使用GitHub进行团队合作
+	http://www.cnblogs.com/zhangchenliang/p/3950778.html
+	
+Git 筆記 - Github 多人合作(設定)
+	http://tech.marsw.tw/blog/2013/08/17/git-notes-github-n-person-cooperation-settings/
+	
+----------- 选 -------------------------------
+GitHub的多人协同开发配置
+	http://www.cnblogs.com/ChampionLam/p/4276001.html?utm_source=tuicool&utm_medium=referral
+	
+怎样在github上协同开发	
+	http://blog.csdn.net/koffuxu/article/details/39010803
+---------------------------------------------

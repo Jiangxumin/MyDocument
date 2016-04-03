@@ -1,0 +1,47 @@
+定制Ubuntu安装CD
+http://wiki.ubuntu.org.cn/%E5%AE%9A%E5%88%B6Ubuntu%E5%AE%89%E8%A3%85CD
+
+ubuntu网络安装整理版
+http://wenku.baidu.com/link?url=3f7K5RBMVb12-hifviJwilo52n5HTGcRa69HRbEKLIe0ptGmkbC5vynx30eKujq8HF0ycmQB6eGpgqJushB-15etA2D4g8wgfLs9TlaBuA3
+
+
+公钥与私钥
+http://www.blogjava.net/yxhxj2006/archive/2012/10/15/389547.html
+
+公钥，私钥和数字签名这样最好理解 
+http://blog.csdn.net/21aspnet/article/details/7249401
+
+CA证书：
+http://baike.baidu.com/link?url=OVmXn0UotA432QQtPBteKqmeDfyZEPPioZFF1-n7V1_2VNqVz76EXfjAGOCKyO0WztcC8eM9oluocT5IKVPpGK
+
+公钥、私钥、数字证书的概念 
+http://blog.csdn.net/turui/article/details/2048582
+
+
+公钥和私钥的区别
+http://blog.sina.com.cn/s/blog_45497dfa0100y0k5.html
+
+
+GPG入门教程  ****
+http://www.ruanyifeng.com/blog/2013/07/gpg.html
+
+
+ Linux命令学习手册-gpg命令 ****
+http://blog.chinaunix.net/uid-9525959-id-2001824.html
+
+
+ apt-move 制作本地源   http://blog.chinaunix.net/uid-20521803-id-1936105.html
+
+==========================
+列出：
+sudo gpg --list-keys
+
+刪除：
+sudo gpg --delete-secret-keys MassClouds
+sudo gpg --delete-keys MassClouds
+
+
+sudo gpg --delete-secret-keys MassClouds && sudo gpg --delete-keys MassClouds
+=========================
+
+

@@ -1,0 +1,13 @@
+virtkey模块下载地址:  https://launchpad.net/virtkey
+
+tar -xzvf virtkey-0.63.0.tar.gz
+
+sudo apt-get-install xorg-dev
+sudo apt-get-install libgtk2.0-dev
+
+./setup.py build
+
+./setup.py 
+
+
+http://blog.csdn.net/zhouy1989/article/details/13997507

@@ -1,0 +1,879 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+     
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>   
+    
+     
+    <script type="text/javascript" src="http://c.csdnimg.cn/pubfooter/js/tracking.js" charset="utf-8"></script>  
+
+    <script type="text/javascript">
+        var protocol = window.location.protocol;
+        document.write('<script type="text/javascript" src="' + protocol + '//csdnimg.cn/pubfooter/js/repoAddr2.js?v=' + Math.random() + '"></' + 'script>');
+    </script>
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <title>linux系统管理(4)---dpkg-deb - 落寞微蓝
+        - 博客频道 - CSDN.NET</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="这个工具据说是基于bluz的,但是Android4.2以后不再采用bluz而" />
+    <script src="http://static.blog.csdn.net/scripts/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://static.blog.csdn.net/scripts/ad.js?v=1.1"></script>
+        <!--new top-->
+               <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/css/index.css">        <!--new top-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/light_blue/css/style.css?v=1.1" />
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/luomoweilan/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+</head>
+<body>
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/luomoweilan">落寞微蓝</a></h2>
+            <h3>做为一个普通人，只需做好三件事：看清这世界、修炼好自己、影响身边人。</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+            
+                <li id="btnContents"><a href="http://blog.csdn.net/luomoweilan?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/luomoweilan?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/luomoweilan/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "luomoweilan";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/luomoweilan";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+<a href="http://huiyi.csdn.net/activity/product/goods_list?project_id=2741">
+<font color=red>2016软考项目经理实战班
+</font></a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/xingjiarong/article/details/50651235">
+<font color=blue>python编程常用模板总结
+</font></a>
+&nbsp;&nbsp;&nbsp;
+<a href="http://blog.csdn.net/dba_huangzj/article/details/50469185">
+<font color=red>【博客专家】有奖试读—Windows PowerShell实战指南
+</font></a>
+
+</div>                        </div>
+                        
+
+<!--AdForward Begin:-->
+<script type="text/javascript" ads-src="http://csdnim.qtmojo.com/main/s?user=csdn|blog|fumeiti&db=csdnim&border=0&local=yes&js=ie" src="http://creatim.qtmojo.cn/td/AllyesDeliver.min.js" charset="gbk"></script>
+<!--AdForward End-->
+
+  
+<link href="http://static.blog.csdn.net/css/comment1.css" type="text/css" rel="stylesheet" />
+<link href="http://static.blog.csdn.net/css/style1.css" type="text/css" rel="stylesheet" />
+<script language='JavaScript' type='text/javascript' src='http://download.csdn.net/js/jquery.cookie.js'></script>
+<script type="text/javascript" src="http://c.csdnimg.cn/rabbit/search-service/main.js"></script>
+<link rel="stylesheet" href="http://static.blog.csdn.net/public/res-min/markdown_views.css?v=1.0" />
+<link rel="stylesheet" href="http://static.blog.csdn.net/css/category.css?v=1.0" />
+<script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+           
+            var isBole = false;
+            
+          
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="/luomoweilan/article/details/21558511">
+        linux系统管理(4)---dpkg-deb            
+        </a></span>
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/linux' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">linux</a><a href='http://www.csdn.net/tag/dpkg-deb' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">dpkg-deb</a><a href='http://www.csdn.net/tag/debian' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">debian</a><a href='http://www.csdn.net/tag/rpm' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">rpm</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2014-03-19 21:52</span>
+            <span class="link_view" title="阅读次数">2699人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(0)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('linux系统管理(4)---dpkg-deb','21558511');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(21558511,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('1840857','luomoweilan','top','21558511');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">linux使用---系统管理<em>（6）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/luomoweilan/article/category/1840857"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_1840857">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+    <script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>  
+        <div   class="bog_copyright">         
+            <p  class="copyright_p" >版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+        </div>
+
+  
+
+  
+  
+     
+
+<div id="article_content" class="article_content">
+
+<h1 style="margin-bottom:0cm"><span style="font-family:AR PL UKai CN"><strong><span style="font-size:18px">一、目的</span></strong></span></h1>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; linux</span></span><span style="font-family:AR PL UKai CN">系统下有两种常见的软件包管理系统</span><span style="font-family:AR PL UKai CN"><span lang="en-US">Debian</span></span><span style="font-family:AR PL UKai CN">和</span><span style="font-family:AR PL UKai CN"><span lang="en-US">RPM</span></span><span style="font-family:AR PL UKai CN">。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 本文将介绍</span><span style="font-family:AR PL UKai CN"><span lang="en-US">Debian</span></span><span style="font-family:AR PL UKai CN">包管理工具</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb</span></span><span style="font-family:AR PL UKai CN">用法，</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb</span></span><span style="font-family:AR PL UKai CN">是用来制作</span><span style="font-family:AR PL UKai CN"><span lang="en-US">Debian</span></span><span style="font-family:AR PL UKai CN">包的工具，同时也可以查看、解压</span><span style="font-family:AR PL UKai CN"><span lang="en-US">Debian</span></span><span style="font-family:AR PL UKai CN">包。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 本文将选取</span><span style="font-family:AR PL UKai CN"><span lang="en-US">ubuntu12.04</span></span><span style="font-family:AR PL UKai CN">发行版做为描述基础。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><br>
+</p>
+<h1 style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><strong>二、</strong></span><span style="font-family:AR PL UKai CN"><span lang="en-US"><strong>Debian</strong></span></span><span style="font-family:AR PL UKai CN"><strong>包&#26684;式</strong></span></span></h1>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 每个</span><span style="font-family:AR PL UKai CN"><span lang="en-US">Debian</span></span><span style="font-family:AR PL UKai CN">包主要包含两大类文件：控制文件和常规文件（包括程序、配置文件、帮助文档等）。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 控制文件一般存放在</span><span style="font-family:AR PL UKai CN"><span lang="en-US">./DEBIAN/control</span></span><span style="font-family:AR PL UKai CN">中，例如：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">./dropbox_1.6.0_i386/DEBIAN/control</span></span><span style="font-family:AR PL UKai CN">。控制文件</span><span style="font-family:AR PL UKai CN"><span lang="en-US">control</span></span><span style="font-family:AR PL UKai CN">记录了</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包的软件名称、版本、依赖关系、维护者等关键信息。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-family:AR PL UKai CN"><span style="font-size:10pt"><img src="http://img.blog.csdn.net/20140319214550515?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvbW93ZWlsYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 常规文件包含程序、</span><span style="font-family:AR PL UKai CN"><span lang="en-US">lib</span></span><span style="font-family:AR PL UKai CN">库、帮助文档等。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-family:AR PL UKai CN"><span style="font-size:10pt"><img src="http://img.blog.csdn.net/20140319214610531?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvbW93ZWlsYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 使用</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -e &lt;deb&gt;</span></span><span style="font-family:AR PL UKai CN">可以解压出控制文件；使用</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb -x</span></span><span style="font-family:AR PL UKai CN">可以解压出常规文件。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; Debian</span></span><span style="font-family:AR PL UKai CN">包命名&#26684;式为：包名称</span><span style="font-family:AR PL UKai CN"><span lang="en-US">&#43;</span></span><span style="font-family:AR PL UKai CN">版本号</span><span style="font-family:AR PL UKai CN"><span lang="en-US">&#43;</span></span><span style="font-family:AR PL UKai CN">扩展名，例如：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dropbox_1.6.0_i386.deb</span></span><span style="font-family:AR PL UKai CN">。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><br>
+</p>
+<h1 style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><strong>三、常用</strong></span><span style="font-family:AR PL UKai CN"><span lang="en-US"><strong>dpkg-deb</strong></span></span><span style="font-family:AR PL UKai CN"><strong>命令</strong></span></span></h1>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; dpkg-deb</span></span><span style="font-family:AR PL UKai CN">用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb</span></span><span style="font-family:AR PL UKai CN">命令</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 1</span></span><span style="font-family:AR PL UKai CN">、制作</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -b &lt;dir&gt; &lt;deb&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"><br>
+</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-family:AR PL UKai CN"><span lang="en-US"><span style="font-size:18px"></span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 2</span></span><span style="font-family:AR PL UKai CN">、列出</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包常规文件</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -c &lt;deb&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><br>
+</span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 3</span></span><span style="font-family:AR PL UKai CN">、列出</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包信息</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -I &lt;deb&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><br>
+</span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 4</span></span><span style="font-family:AR PL UKai CN">、列出</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包中程序名称和版本</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -W &lt;deb&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><br>
+</span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 5</span></span><span style="font-family:AR PL UKai CN">、列出</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包信息（和</span><span style="font-family:AR PL UKai CN"><span lang="en-US">-I</span></span><span style="font-family:AR PL UKai CN">类&#20284;）</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -f &lt;deb&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><br>
+</p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 6</span></span><span style="font-family:AR PL UKai CN">、解压</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包控制文件</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -e &lt;deb&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><br>
+</span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 7</span></span><span style="font-family:AR PL UKai CN">、解压</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包常规文件</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -x &lt;deb&gt; &lt;dir&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><br>
+</span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 8</span></span><span style="font-family:AR PL UKai CN">、解压并列出</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包常规文件</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -X &lt;deb&gt; &lt;dir&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><br>
+</span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 9</span></span><span style="font-family:AR PL UKai CN">、解压</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包控制文件和常规文件</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 用法：</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dpkg-deb
+ -R &lt;deb&gt; &lt;dir&gt;</span></span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"><br>
+</span></span></span></p>
+<h1 style="margin-bottom:0cm"><span style="font-family:AR PL UKai CN"><strong><span style="font-size:18px">四、示例</span></strong></span></h1>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US"></span></span><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 下面以</span><span style="font-family:AR PL UKai CN"><span lang="en-US">dropbox_1.6.0_i386.deb</span></span><span style="font-family:AR PL UKai CN">包为例，给出一些常用命令的结果。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 1</span></span><span style="font-family:AR PL UKai CN">、查看</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包程序名称和版本</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><img src="http://img.blog.csdn.net/20140319214628421?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvbW93ZWlsYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+</p>
+<p align="LEFT" style="margin-bottom:0cm"><br>
+</p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 2</span></span><span style="font-family:AR PL UKai CN">、查看</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包信息</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><img src="http://img.blog.csdn.net/20140319214645875?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvbW93ZWlsYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+</p>
+<p align="LEFT" style="margin-bottom:0cm"><br>
+</p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 3</span></span><span style="font-family:AR PL UKai CN">、列出</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包常规文件</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><img src="http://img.blog.csdn.net/20140319214706156?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvbW93ZWlsYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+</p>
+<p align="LEFT" style="margin-bottom:0cm"><br>
+</p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><span lang="en-US">&nbsp; &nbsp; 4</span></span><span style="font-family:AR PL UKai CN">、解压</span><span style="font-family:AR PL UKai CN"><span lang="en-US">deb</span></span><span style="font-family:AR PL UKai CN">包控制文件和常规文件</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><img src="http://img.blog.csdn.net/20140319214720546?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbHVvbW93ZWlsYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+</p>
+<p align="LEFT" style="margin-bottom:0cm"><br>
+</p>
+<h1 style="margin-bottom:0cm"><span style="font-family:AR PL UKai CN"><strong><span style="font-size:18px">五、总结</span></strong></span></h1>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN">&nbsp; &nbsp; 本文介绍了</span><span style="font-family:DejaVu Serif,serif"><span lang="en-US"><span style="font-family:AR PL UKai CN">Debian</span></span></span><span style="font-family:AR PL UKai CN">包的&#26684;式，包含控制文件和常规文件，其中控制文件</span><span style="font-family:DejaVu Serif,serif"><span lang="en-US"><span style="font-family:AR PL UKai CN">control</span></span></span><span style="font-family:AR PL UKai CN">是必须的；还介绍了</span><span style="font-family:DejaVu Serif,serif"><span lang="en-US"><span style="font-family:AR PL UKai CN">dpkg-deb</span></span></span><span style="font-family:AR PL UKai CN">工具的常用用法，包括查看、解压、制作</span><span style="font-family:DejaVu Serif,serif"><span lang="en-US"><span style="font-family:AR PL UKai CN">deb</span></span></span><span style="font-family:AR PL UKai CN">包等。</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"><span style="font-family:AR PL UKai CN"><br>
+</span></span></p>
+<p align="LEFT" style="margin-bottom:0cm"><span style="font-size:18px"></span></p>
+<h1 class="cjk" align="LEFT" style="font-family:Arial; margin:0px; padding:0px; line-height:26px">
+<span style="font-family:'AR PL UKai CN'"><span style="font-size:18px">版权声明：</span></span></h1>
+<p align="LEFT" style="margin-top:0px; margin-bottom:0cm; padding:0cm; border:none; line-height:0.69cm">
+<span style="font-size:18px"><span style="font-family:Arial">&nbsp; &nbsp; &nbsp;</span><span style="font-family:'AR PL UKai CN'">原创作品，如非商业性转载，请注明出处；如商业性转载出版，请与作者联系。</span></span></p>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   <link rel="stylesheet" href="http://static.blog.csdn.net/css/blog_detail.css" />
+
+    
+<!--172.16.140.13-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+ 
+
+        <div id="digg" ArticleId="21558511">
+            <dl id="btnDigg" class="digg digg_disable">
+               
+                 <dt>顶</dt>
+                <dd>0</dd>
+            </dl>
+            <dl id="btnBury" class="digg digg_disable">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>
+            </dl>
+        </div>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='/luomoweilan/article/details/21483195';">上一篇</span><a href="/luomoweilan/article/details/21483195" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">linux进程管理(3)---进程创建</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='/luomoweilan/article/details/23042595';">下一篇</span><a href="/luomoweilan/article/details/23042595" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">linux进程管理(4)---进程执行</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+        <div class="similar_article"  style="display:none">
+                <h4>我的同类文章</h4>
+                <div class="similar_c"style="margin:20px 0px 0px 0px">
+                    <div class="similar_c_t">
+                                <label class="similar_cur">
+                                    <span  style="cursor:pointer"  onclick="GetCategoryArticles('1840857','luomoweilan','foot','21558511');">linux使用---系统管理<em>（6）</em></span>
+                                </label>
+                    </div>
+                   
+                    <div class="similar_wrap tracking-ad" data-mod="popu_141"  style="max-height:195px;">
+                        <a href="http://blog.csdn.net" style="display:none">http://blog.csdn.net</a>
+                        <ul class="similar_list fl">                          
+                        </ul>
+
+                        <ul class="similar_list fr">                           
+                        </ul>
+                    </div>
+                </div>
+            </div>    
+    <script  type="text/javascript">
+        $(function () {
+            GetCategoryArticles('1840857', 'luomoweilan','foot','21558511');
+        });
+    </script>
+      
+</div>
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/luomoweilan/svc/GetSuggestContent/21558511",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+<style>
+.blog-ass-articl dd {
+color: #369;
+width: 99%; /*修改行*/
+float: left;
+overflow: hidden;
+font: normal normal 12px/23px "SimSun";
+height: 23px;
+margin: 0;
+padding: 0 0 0 10px;
+margin-right: 30px;
+background: url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;
+}
+</style>
+
+<dl class="blog-ass-articl" id="res-relatived" > 
+     <dt><span>猜你在找</span></dt>    
+
+
+   
+
+
+    <div id="adCollege" style="width: 42%;float: left;"> 
+        <script src="http://csdnimg.cn/jobreco/job_reco.js" type="text/javascript"></script> 
+        <script type="text/javascript">
+            csdn.position.showEdu({
+                sourceType: "blog",
+                searchType: "detail",
+                searchKey: "21558511",
+                username: "",
+                recordcount: "5",
+                containerId: "adCollege" //容器DIV的id。 
+            });
+        </script> 
+    </div>  
+
+    
+     <div id="res"  data-mod="popu_36"  class="tracking-ad" style="width: 42%;float: left;margin-right: 30px;"></div>
+   
+</dl>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        setTimeout(function () {
+            var searchtitletags = 'linux系统管理(4)---dpkg-deb' + ',' + $("#tags").html();
+            searchService({
+                index: 'blog',
+                query: searchtitletags,
+                from: 5,
+                size: 5,
+                appendTo: '#res',
+                url: 'recommend',
+                his: 2,
+                client: "blog_cf_enhance",
+                tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+            });
+        }, 500);
+    });    
+
+ </script>   
+
+    <div id="ad_cen">        
+<!--AdForward Begin:-->
+<script type="text/javascript" src="http://csdnim.qtmojo.com/main/s?user=csdn|blog|banner2&db=csdnim&border=0&local=yes&js=ie" charset="gbk"></script>
+<!--AdForward End-->    </div>  
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '21558511';
+    var commentscount = 0;
+    var islock = false
+</script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/comment.js"></script>
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+<div class="tag_list" style="display:none"></div>
+  <script  language="javascript" type='text/javascript'>     
+      $(function(){
+              setTimeout(function(){
+                  $.get("/luomoweilan/svc/GetTagContent",function(data){
+                      $(".tag_list").html(data).show();
+                  });     
+              });
+          },500);                       
+ </script> 
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });
+        },200);  
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }    
+
+</script>
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/luomoweilan" target="_blank">
+    <img src="http://avatar.csdn.net/5/6/9/1_luomoweilan.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/luomoweilan" class="user_name" target="_blank">luomoweilan</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=luomoweilan','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>116708次</span></li>
+    <li>积分：<span>1871</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog4.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：1871 </div>
+        </span>  </li>
+    <li>排名：<span>第12868名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>69篇</span></li>
+    <li>转载：<span>45篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>4条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/luomoweilan/article/category/1840857" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux使用---系统管理</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="/luomoweilan/article/category/2627135" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux使用---文件系统</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/luomoweilan/article/category/2627143" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux使用---网络</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/luomoweilan/article/category/2576121" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux编程---vim</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/luomoweilan/article/category/2619431" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux编程---git</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/luomoweilan/article/category/1830807" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux内核</a><span>(13)</span>
+                </li>
+                 <li>
+                    <a href="/luomoweilan/article/category/1840855" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">tmp</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/luomoweilan/article/category/472742" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">其他</a><span>(35)</span>
+                </li>
+</ul>
+</div><div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/baimafujinji/article/details/50660189" 
+
+target="_blank">*基于直方图的图像增强算法（HE、CLAHE、Retinex）之（二）</a></li>
+<li><a href="http://blog.csdn.net/xingjiarong/article/details/50662528" 
+
+target="_blank">* python绘制非常漂亮的图表</a></li>
+<li><a href="http://blog.csdn.net/u011225629/article/details/50492403" 
+
+target="_blank">* 数据库性能优化之SQL语句优化</a></li>
+<li><a 
+
+href="http://blog.csdn.net/harvic880925/article/details/50598322"target="_blank">*Animation动画详解(七)——ObjectAnimator基本使用</a></li>
+<li><a href="http://blog.csdn.net/luoshengyang/article/details/50527574" 
+
+target="_blank">* Chromium网页URL加载过程分析</a></li>
+<li><a href="http://blog.csdn.net/androidlushangderen/article/details/50571584"  
+
+target="_blank">* Hadoop中止下线操作后大量剩余复制块的解决方案</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/luomoweilan/article/month/2016/01">2016年01月</a><span>(1)</span></li><li><a href="/luomoweilan/article/month/2015/11">2015年11月</a><span>(1)</span></li><li><a href="/luomoweilan/article/month/2014/11">2014年11月</a><span>(3)</span></li><li><a href="/luomoweilan/article/month/2014/10">2014年10月</a><span>(6)</span></li><li><a href="/luomoweilan/article/month/2014/09">2014年09月</a><span>(4)</span></li><li><a href="/luomoweilan/article/month/2014/04">2014年04月</a><span>(5)</span></li><li><a href="/luomoweilan/article/month/2014/03">2014年03月</a><span>(5)</span></li><li><a href="/luomoweilan/article/month/2014/02">2014年02月</a><span>(4)</span></li><li><a href="/luomoweilan/article/month/2014/01">2014年01月</a><span>(5)</span></li><li><a href="/luomoweilan/article/month/2013/01">2013年01月</a><span>(2)</span></li><li><a href="/luomoweilan/article/month/2012/12">2012年12月</a><span>(8)</span></li><li><a href="/luomoweilan/article/month/2012/02">2012年02月</a><span>(1)</span></li><li><a href="/luomoweilan/article/month/2011/12">2011年12月</a><span>(3)</span></li><li><a href="/luomoweilan/article/month/2011/07">2011年07月</a><span>(2)</span></li><li><a href="/luomoweilan/article/month/2011/06">2011年06月</a><span>(5)</span></li><li><a href="/luomoweilan/article/month/2011/03">2011年03月</a><span>(7)</span></li><li><a href="/luomoweilan/article/month/2011/01">2011年01月</a><span>(1)</span></li><li><a href="/luomoweilan/article/month/2010/12">2010年12月</a><span>(3)</span></li><li><a href="/luomoweilan/article/month/2010/06">2010年06月</a><span>(4)</span></li><li><a href="/luomoweilan/article/month/2010/04">2010年04月</a><span>(1)</span></li><li><a href="/luomoweilan/article/month/2010/03">2010年03月</a><span>(23)</span></li><li><a href="/luomoweilan/article/month/2009/09">2009年09月</a><span>(1)</span></li><li><a href="/luomoweilan/article/month/2008/11">2008年11月</a><span>(5)</span></li><li><a href="/luomoweilan/article/month/2008/10">2008年10月</a><span>(14)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/luomoweilan/article/details/17894473" title="linux文件系统初始化过程(2)---挂载rootfs文件系统">linux文件系统初始化过程(2)---挂载rootfs文件系统</a><span>(6424)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/3105514" title="Ping--127.0.0.1">Ping--127.0.0.1</a><span>(4468)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/6581484" title="Linux邮件列表的订阅与取消订阅">Linux邮件列表的订阅与取消订阅</a><span>(4466)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/6260179" title="Vim的使用（三）">Vim的使用（三）</a><span>(4261)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/21196093" title="linux进程管理(1)---进程描述符">linux进程管理(1)---进程描述符</a><span>(3264)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/21558511" title="linux系统管理(4)---dpkg-deb">linux系统管理(4)---dpkg-deb</a><span>(2698)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/6085426" title="Linux启动代码header.S研究">Linux启动代码header.S研究</a><span>(2419)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/18324379" title="linux文件系统初始化过程(4)---加载initrd(中)">linux文件系统初始化过程(4)---加载initrd(中)</a><span>(2338)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/17850377" title="linux文件系统初始化过程(1)---概述">linux文件系统初始化过程(1)---概述</a><span>(2145)</span>
+</li>
+<li>
+<a href="/luomoweilan/article/details/39253621" title="linux文件系统命令(3)---mount和umount">linux文件系统命令(3)---mount和umount</a><span>(2107)</span>
+</li>
+</ul>
+</div>
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/luomoweilan/article/details/19018019#comments">linux系统管理(1)---man</a>
+    <p style="margin:0px;"><a href="/luomoweilan" class="user_name">luomoweilan</a>:
+@qq_25942591:文中提到的pager特指man  pager中的pager。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luomoweilan/article/details/19018019#comments">linux系统管理(1)---man</a>
+    <p style="margin:0px;"><a href="/qq_25942591" class="user_name">qq_25942591</a>:
+楼主你好，我觉得你对pager的解释有错误，我输入“man man”之后，里头有一段话。-P  pa...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luomoweilan/article/details/17894473#comments">linux文件系统初始化过程(2)---挂载rootfs文件系统</a>
+    <p style="margin:0px;"><a href="/cherish_hao" class="user_name">cherish_hao</a>:
+想请教一些作者，上述的图是用什么软件画的？感觉很清晰明了。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luomoweilan/article/details/17850377#comments">linux文件系统初始化过程(1)---概述</a>
+    <p style="margin:0px;"><a href="/hushup" class="user_name">hushup</a>:
+写得真好
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luomoweilan/article/details/20290165#comments">linux系统管理(3)---runlevel</a>
+    <p style="margin:0px;"><a href="/mxgsgtc" class="user_name">mxgsgtc</a>:
+mark! 解决了我的一个疑虑，非常感谢！
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+ </div>   
+            <div class="clear">
+            </div>
+        </div>
+        
+
+<script type="text/javascript" src="http://c.csdnimg.cn/rabbit/cnick/cnick.js"></script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/newblog.min.js"></script>
+
+
+<script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=332447"></script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/JavaScript1.js"></script>
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script>
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+<script type="text/javascript" src="http://ad.csdn.net/scripts/ad-blog.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+    </div>
+      <!--new top-->
+    
+    <script id="csdn-toolbar-id" btnId="header_notice_num" wrapId="note1" count="5" subCount="5" type="text/javascript" src="http://c.csdnimg.cn/public/common/toolbar/js/toolbar.js"></script>     <!--new top-->
+   
+    <link href="http://c.csdnimg.cn/comm_ask/css/ask_float_block.css" type="text/css" rel="stylesheet" />
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/wmd.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/showdown.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/prettify.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/apps/ask_float_block.js'></script>
+   
+</body>
+</html>   
+ 
