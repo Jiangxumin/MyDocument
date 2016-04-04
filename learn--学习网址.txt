@@ -16,3 +16,6 @@ http://www.cnblogs.com/rhcad/archive/2011/12/21/2295507.html
 
 Python 解析配置模块之ConfigParser详解
 http://www.pythontab.com/html/2014/pythonhexinbiancheng_1120/919.html
+
+Python处理JSON
+http://liuzhijun.iteye.com/blog/1859857
