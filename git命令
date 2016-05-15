@@ -275,3 +275,9 @@ git checkout dev
 git rebase master
 
 ps:可以把衍合当作一种在推送之前清理提交历史的手段，如果分支中的提交对象已经发布到服务端，就千万不要对该分支进行衍合。
+
+
+
+
+Git使用子模块引用外部项目
+http://www.linuxidc.com/Linux/2014-12/110771.htm
