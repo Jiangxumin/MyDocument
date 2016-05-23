@@ -1,0 +1,5 @@
+
+1.  Bus::open: Can not get ibus-daemon's address.    ???
+
+http://stackoverflow.com/questions/25109770/python-qt-ibus-error-messages
+
